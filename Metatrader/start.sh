@@ -66,10 +66,23 @@ else
     rm -f /config/.wine/drive_c/mt5setup.exe
 fi
 
+umask 077
+mkdir -p /run/mt5
+cat > /run/mt5/my.ini <<EOF
+[Common]
+Login=$MT5_LOGIN
+Password=$MT5_PASSWORD
+Server=$MT5_SERVER
+[Experts]
+Enabled=1
+Account=0
+Profile=0
+EOF
+
 # Recheck if MetaTrader 5 is installed
 if [ -e "$mt5file" ]; then
     show_message "[4/7] File $mt5file is installed. Running MT5..."
-    $wine_executable "$mt5file" &
+    $wine_executable "$mt5file" /config:/run/mt5/my.ini &
 else
     show_message "[4/7] File $mt5file is not installed. MT5 cannot be run."
 fi

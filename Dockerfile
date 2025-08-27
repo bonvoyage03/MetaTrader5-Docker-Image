@@ -46,11 +46,9 @@ RUN cd /usr/src && \
     ln -sf /usr/local/bin/pip3.13 /usr/bin/pip3 && \
     cd / && rm -rf /usr/src/Python-3.13.0*
 
-# Add WineHQ repository key and APT source
-RUN wget -q https://dl.winehq.org/wine-builds/winehq.key \
-    && apt-key add winehq.key \
-    && add-apt-repository 'deb https://dl.winehq.org/wine-builds/debian/ bookworm main' \
-    && rm winehq.key
+# Add WineHQ repository key and APT source (recommended way for Bookworm)
+RUN wget -O /etc/apt/keyrings/winehq-archive.key https://dl.winehq.org/wine-builds/winehq.key \
+    && echo "deb [signed-by=/etc/apt/keyrings/winehq-archive.key] https://dl.winehq.org/wine-builds/debian/ bookworm main" > /etc/apt/sources.list.d/winehq.list
 
 # Add i386 architecture and update package lists
 RUN dpkg --add-architecture i386 \

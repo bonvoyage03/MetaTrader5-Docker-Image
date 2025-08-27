@@ -88,16 +88,12 @@ else
 fi
 
 
-# Install Python in Wine if not present
-if ! $wine_executable python --version 2>/dev/null; then
-    show_message "[5/7] Installing Python in Wine..."
-    curl -L $python_url -o /tmp/python-installer.exe
-    $wine_executable /tmp/python-installer.exe /quiet InstallAllUsers=1 PrependPath=1
-    rm /tmp/python-installer.exe
-    show_message "[5/7] Python installed in Wine."
-else
-    show_message "[5/7] Python is already installed in Wine."
-fi
+# Always install Python 3.13 in Wine
+show_message "[5/7] Installing Python 3.13 in Wine..."
+curl -L $python_url -o /tmp/python-installer.exe
+$wine_executable /tmp/python-installer.exe /quiet InstallAllUsers=1 PrependPath=1
+rm /tmp/python-installer.exe
+show_message "[5/7] Python 3.13 installed in Wine."
 
 # Upgrade pip and install required packages
 show_message "[6/7] Installing Python libraries"
@@ -116,13 +112,13 @@ fi
 # Install pymt5linux library in Linux if not installed
 show_message "[6/7] Checking and installing pymt5linux library in Linux if necessary"
 if ! is_python_package_installed "pymt5linux"; then
-    pip install --upgrade --no-cache-dir pymt5linux
+    pip3.13 install --upgrade --no-cache-dir pymt5linux
 fi
 
 # Install pyxdg library in Linux if not installed
 show_message "[6/7] Checking and installing pyxdg library in Linux if necessary"
 if ! is_python_package_installed "pyxdg"; then
-    pip install --upgrade --no-cache-dir pyxdg
+    pip3.13 install --upgrade --no-cache-dir pyxdg
 fi
 
 # Start the MT5 server on Linux

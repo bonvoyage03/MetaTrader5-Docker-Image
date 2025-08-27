@@ -67,8 +67,8 @@ else
 fi
 
 umask 077
-mkdir -p /run/mt5
-cat > /run/mt5/my.ini <<EOF
+mkdir -p /tmp/mt5
+cat > /tmp/mt5/my.ini <<EOF
 [Common]
 Login=$MT5_LOGIN
 Password=$MT5_PASSWORD
@@ -82,7 +82,7 @@ EOF
 # Recheck if MetaTrader 5 is installed
 if [ -e "$mt5file" ]; then
     show_message "[4/7] File $mt5file is installed. Running MT5..."
-    $wine_executable "$mt5file" /config:/run/mt5/my.ini &
+    $wine_executable "$mt5file" /config:/tmp/mt5/my.ini &
 else
     show_message "[4/7] File $mt5file is not installed. MT5 cannot be run."
 fi

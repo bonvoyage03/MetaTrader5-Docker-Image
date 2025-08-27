@@ -93,6 +93,7 @@ show_message "[5/7] Installing Python 3.13 in Wine..."
 curl -L $python_url -o /tmp/python-installer.exe
 $wine_executable /tmp/python-installer.exe /quiet InstallAllUsers=1 PrependPath=1
 rm /tmp/python-installer.exe
+ln -s "/config/.wine/drive_c/Program Files (x86)/Python313-32/python.exe" /config/.wine/drive_c/python32.exe
 show_message "[5/7] Python 3.13 installed in Wine."
 
 # Upgrade pip and install required packages
@@ -123,7 +124,7 @@ fi
 
 # Start the MT5 server on Linux
 show_message "[7/7] Starting the pymt5linux server..."
-python3 -m pymt5linux --host 0.0.0.0 -p $mt5server_port -w $wine_executable python.exe &
+$wine_executable python -m pymt5linux --host 0.0.0.0 -p $mt5server_port C:\python32.exe &
 
 # Give the server some time to start
 sleep 5
